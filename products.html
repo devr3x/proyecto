@@ -26,19 +26,19 @@
                     <img src="https://source.unsplash.com/featured/?resistor" alt="Resistor">
                     <h2>Resistor 1kΩ</h2>
                     <p>Precio: $0.10</p>
-                    <button class="btn">Agregar al Carrito</button>
+                    <button class="btn" onclick="addToCart('Resistor 1kΩ', 0.10)">Agregar al Carrito</button>
                 </div>
                 <div class="product">
                     <img src="https://source.unsplash.com/featured/?capacitor" alt="Capacitor">
                     <h2>Capacitor 100uF</h2>
                     <p>Precio: $0.20</p>
-                    <button class="btn">Agregar al Carrito</button>
+                    <button class="btn" onclick="addToCart('Capacitor 100uF', 0.20)">Agregar al Carrito</button>
                 </div>
                 <div class="product">
                     <img src="https://source.unsplash.com/featured/?arduino" alt="Arduino">
                     <h2>Microcontrolador Arduino</h2>
                     <p>Precio: $25.00</p>
-                    <button class="btn">Agregar al Carrito</button>
+                    <button class="btn" onclick="addToCart('Microcontrolador Arduino', 25.00)">Agregar al Carrito</button>
                 </div>
                 <!-- Agregar más productos según necesidad -->
             </div>
@@ -48,5 +48,7 @@
     <footer>
         <p>&copy; 2024 InfoMática. Todos los derechos reservados.</p>
     </footer>
+
+    <script src="scripts.js"></script>
 </body>
 </html>

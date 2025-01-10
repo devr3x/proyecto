@@ -1,57 +1,71 @@
-// scripts.js
-
-// Simulación de un carrito de compras
-let cart = [];
-
 // Función para agregar un producto al carrito
-function addToCart(productName, price) {
-    const product = { name: productName, price: price };
-    cart.push(product);
-    alert(`${productName} ha sido agregado al carrito.`);
-    updateCartCount();
+function addToCart(productId, productName) {
+    // Obtener el carrito desde localStorage o inicializarlo
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Verificar si el producto ya está en el carrito
+    const productIndex = cart.findIndex(item => item.id === productId);
+    if (productIndex !== -1) {
+        // Si ya está, aumentar la cantidad
+        cart[productIndex].quantity += 1;
+    } else {
+        // Si no está, agregarlo con cantidad inicial de 1
+        cart.push({ id: productId, name: productName, quantity: 1 });
+    }
+
+    // Guardar el carrito actualizado en localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${productName} añadido al carrito.`);
 }
 
-// Actualizar el conteo de ítems en el carrito
-function updateCartCount() {
-    const cartCountElement = document.getElementById('cart-count');
-    cartCountElement.textContent = cart.length;
-}
-
-// Mostrar el carrito completo
+// Función para obtener y mostrar el carrito
 function displayCart() {
-    const cartContainer = document.querySelector('.cart-items');
-    cartContainer.innerHTML = ''; // Limpiar contenido anterior
+    const cartContainer = document.getElementById('cart-container');
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    let total = 0;
-    cart.forEach((item) => {
-        const cartItem = document.createElement('div');
-        cartItem.classList.add('cart-item');
-        cartItem.innerHTML = `
-            <h2>${item.name}</h2>
-            <p>Precio: $${item.price.toFixed(2)}</p>
+    // Limpiar el contenedor
+    cartContainer.innerHTML = '';
+
+    if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>El carrito está vacío.</p>';
+        return;
+    }
+
+    // Mostrar los productos del carrito
+    cart.forEach(item => {
+        const productElement = document.createElement('div');
+        productElement.className = 'cart-item';
+        productElement.innerHTML = `
+            <p>${item.name} (x${item.quantity})</p>
+            <button onclick="removeFromCart('${item.id}')">Eliminar</button>
         `;
-        cartContainer.appendChild(cartItem);
-        total += item.price;
+        cartContainer.appendChild(productElement);
     });
-
-    const totalElement = document.querySelector('.cart-total h2');
-    totalElement.textContent = `Total: $${total.toFixed(2)}`;
 }
 
-// Eventos para simular agregar productos
-document.addEventListener('DOMContentLoaded', () => {
-    const addButtons = document.querySelectorAll('.btn');
-    addButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const productName = button.parentElement.querySelector('h2').textContent;
-            const priceText = button.parentElement.querySelector('p').textContent;
-            const price = parseFloat(priceText.replace('Precio: $', ''));
-            addToCart(productName, price);
-        });
-    });
+// Función para eliminar un producto del carrito
+function removeFromCart(productId) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Si estamos en la página del carrito
-    if (document.querySelector('.cart-items')) {
+    // Filtrar el producto a eliminar
+    cart = cart.filter(item => item.id !== productId);
+
+    // Guardar el carrito actualizado en localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Actualizar la visualización del carrito
+    displayCart();
+}
+
+// Asegurarse de ejecutar el código en el contexto adecuado
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (document.getElementById('cart-container')) {
+            displayCart();
+        }
+    });
+} else {
+    if (document.getElementById('cart-container')) {
         displayCart();
     }
-});
+}

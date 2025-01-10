@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito - InfoMática</title>
     <link rel="stylesheet" href="styles.css">
-
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
@@ -23,11 +23,11 @@
         <section class="cart">
             <h1>Tu Carrito</h1>
             <div class="cart-items">
-                <!-- Los productos se generarán dinámicamente mediante JS -->
+                <!-- Los productos se generarán dinámicamente mediante JavaScript -->
             </div>
             <div class="cart-total">
                 <h2>Total: $0.00</h2>
-                <button class="btn">Proceder al Pago</button>
+                <button class="btn" onclick="proceedToCheckout()">Proceder al Pago</button>
             </div>
         </section>
     </main>
@@ -35,7 +35,5 @@
     <footer>
         <p>&copy; 2024 InfoMática. Todos los derechos reservados.</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
